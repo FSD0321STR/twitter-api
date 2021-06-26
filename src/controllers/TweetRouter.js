@@ -6,8 +6,6 @@ const protect = require('../middlewares/protect');
 
 const router = Router();
 
-router.use(protect);
-
 router.get("", async (req, res) => {
     const tasks = await TweetService.readAll();
     return res.status(200).json(tasks);

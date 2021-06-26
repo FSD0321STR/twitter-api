@@ -19,3 +19,4 @@ app.use(express.json());
 app.use(AuthRouter);
 
 app.listen(port, () => console.log(`Runing in http://localhost:${port}`));
+
