@@ -14,6 +14,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
+    firstName: String,
+    lastName: String,
+    userName: String,
+    birthDates: String,
     tweets: [
         {
             type: mongoose.Schema.Types.ObjectId,
