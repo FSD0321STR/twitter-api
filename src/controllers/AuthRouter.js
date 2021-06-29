@@ -1,10 +1,13 @@
 const AuthService = require('../services/AuthService');
 const { Router } = require('express');
 const { createToken } = require('../helpers/token');
+const { validateUser } = require( '../models/mongoose' );
+const validate = require('../middlewares.js/validate');
+
 
 const router = Router();
 
-router.post('/register', async (req, res) => {
+router.post('/register', validate(validateUser), async (req, res) => {
     const user = await AuthService.register(req.body);
     if (!user) {
         return res.status(403).json({ message: "The email is already in use." });

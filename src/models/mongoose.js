@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     userName: String,
-    birthDates: String,
+    birthDate: String,
     tweets: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -75,9 +75,6 @@ const TweetCollection = mongoose.model('TweetCollection', {
     updatedAt: { type: Date, default: Date.now },
 });
 
-
-
-
 validateTweet = (document, method) => {
     switch (method) {
         case 'POST':
@@ -87,7 +84,30 @@ validateTweet = (document, method) => {
         case 'PATCH':
             return ajv.validate(taskPatchSchema, document);;
     }
-}
+};
+
+const userCreateSchema = {
+    type: 'object',
+    properties: {
+    email: { type: 'string' },
+    password: { type: 'string' },
+    firstName: { type: 'string' },
+    lastName: { type: 'string' },
+    userName: { type: 'string' },
+    birthDate: { type: 'string' },
+
+},
+    required: ['email', 'password', 'firstName', 'lastName', 'userName', 'birthDate'],
+    additionalProperties: false,
+};
+
+validateUser = (document, method) => {
+    
+    switch (method) {
+        case 'POST':
+            return ajv.validate(userCreateSchema, document);
+    }
+};
 
 
 module.exports = {
@@ -96,4 +116,5 @@ module.exports = {
     User,
     TweetImage,
     TweetCollection,
+    validateUser
 }
