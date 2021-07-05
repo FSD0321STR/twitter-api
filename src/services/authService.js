@@ -1,12 +1,12 @@
 const UserService = require('./UserService');
 const { comparePasswords } = require('../helpers/password');
 
-const register = async ({ email, password }) => {
+const register = async ({ email, password, firstName, lastName, username, birthDate }) => {
     let user = await UserService.findByEmail(email);
     if (user) {
         return false;
     }
-    user = await UserService.create({ email, password });
+    user = await UserService.create({ email, password, firstName, lastName, username, birthDate });
     return user;
 }
 

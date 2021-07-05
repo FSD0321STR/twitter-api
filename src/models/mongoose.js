@@ -3,17 +3,21 @@ const Ajv = require('ajv');
 const ajv = new Ajv();
 const mongoose = require('mongoose');
 const { encryptPassword } = require('../helpers/password');
-
+const fs = require('fs')
 const uri = process.env.MONGODB_URI;
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-//definir modelos usuario tweet... mediante schema
+
 
 
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
+    firstName: String,
+    lastName: String,
+    userName: String,
+    birthDates: String,
     tweets: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -36,36 +40,49 @@ const User = mongoose.model('User', userSchema);
 
 const Tweet = mongoose.model('Tweet', {
     body: String,
-    images: [{
+    /*images: [{
         type: mongoose.Types.ObjectId,
-        ref: "TweetImage" , 
-    }],
+        ref: "TweetImage",
+    }],*/
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
+const tweetCreateSchema = {
+    type: "object",
+    properties: {
+        body: { type: "string" },
+    },
+    required: ["body"],
+    additionalProperties: false
+};
+
+
+
 const TweetImage = mongoose.model('TweetImage', {
     img: {
         data: Buffer,
-        contentType: String, 
+        contentType: String,
     },
     tweet: {
         type: mongoose.Types.ObjectId,
-        ref: "Tweet", 
+        ref: "Tweet",
     },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
+
+
 
 
 const TweetCollection = mongoose.model('TweetCollection', {
     user: {
         type: mongoose.Types.ObjectId,
-        ref: "User", 
+        ref: "User",
     },
     tweets: [{
         type: mongoose.Types.ObjectId,
-        ref: "Tweet", 
+        ref: "Tweet",
     }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -77,11 +94,11 @@ const TweetCollection = mongoose.model('TweetCollection', {
 validateTweet = (document, method) => {
     switch (method) {
         case 'POST':
-            return ajv.validate(taskCreateSchema, document);
+            return ajv.validate(tweetCreateSchema, document);
         case 'PUT':
-            return ajv.validate(taskUpdateSchema, document);;
+            return ajv.validate(tweetUpdateSchema, document);;
         case 'PATCH':
-            return ajv.validate(taskPatchSchema, document);;
+            return ajv.validate(tweetPatchSchema, document);;
     }
 }
 

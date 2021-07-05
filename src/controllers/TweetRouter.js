@@ -1,41 +1,29 @@
 const { Router } = require('express');
-const { TweetValidate } = require('../models/mongoose');
+const { validateTweet } = require('../models/mongoose');
 const TweetService = require('../services/TweetService');
-const validate = require("../middlewares/validate")
-const protect = require('../middlewares/protect');
+const validate = require('../middlewares.js/validate')
+const protect = require('../middlewares.js/protect');
 
 const router = Router();
 
-router.use(protect);
+
+//CRUD
+
 
 router.get("", async (req, res) => {
-    const tasks = await TweetService.readAll();
-    return res.status(200).json(tasks);
+    const Tweets = await TweetService.readAll();
+    return res.status(200).json(Tweets);
 });
 
 router.get("/:id", async (req, res) => {
-    const task = await TweetService.read(req.params.id);
-    return res.status(200).json(task);
+    const Tweet = await TweetService.read(req.params.id);
+    return res.status(200).json(Tweet);
 });
 
-router.post("", validate(TweetValidate), async (req, res) => {
+router.post("", validate(validateTweet), async (req, res) => {
     const body = req.body;
-    const task = await TweetService.create(body);
-    return res.status(201).json(task)
-});
-
-router.put("/:id", validate(TweetValidate), async (req, res) => {
-    const body = req.body;
-    const { id } = req.params
-    const task = await TweetService.update(id, body);
-    return res.status(200).json(task)
-});
-
-router.patch("/:id", validate(TweetValidate), async (req, res) => {
-    const body = req.body;
-    const { id } = req.params
-    const task = await TweetService.update(id, body);
-    return res.status(200).json(task)
+    const Tweet = await TweetService.create(body);
+    return res.status(201).json(Tweet)
 });
 
 
@@ -45,10 +33,6 @@ router.delete("/:id", async (req, res) => {
     return res.status(200).json(deleted)
 });
 
-router.post('/clear', async (req, res) => {
-    const deleted = await TweetService.clearCompleted();
-    return res.status(200).json(deleted)
-})
 
 
 module.exports = router;
