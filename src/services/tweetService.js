@@ -4,6 +4,10 @@ const create = (document) => {
     return new Tweet(document).save();
 };
 
+const readAll = async () => {
+    return await Tweet.find().populate('tweet').exec();
+}
+
 const deleteTweet = (id) => {
     return Tweet.delete({ _id: id });
 };
@@ -17,6 +21,7 @@ const findById = (id) => {
 };
 
 module.exports = {
+    readAll,
     create,
     deleteTweet,
     findByUser,
