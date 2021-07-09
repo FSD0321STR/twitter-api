@@ -3,7 +3,8 @@ require('express-async-errors');
 const cors = require('cors');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
+//const port = 8080;
 
 
 const AuthRouter = require('./controllers/AuthRouter');
