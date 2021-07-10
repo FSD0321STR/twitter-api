@@ -1,4 +1,4 @@
-const AuthService = require('../services/AuthService');
+const AuthService = require('../services/authService');
 const { Router } = require('express');
 const { createToken } = require('../helpers/token');
 

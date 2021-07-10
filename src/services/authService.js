@@ -1,4 +1,4 @@
-const UserService = require('./UserService');
+const UserService = require('./userService');
 const { comparePasswords } = require('../helpers/password');
 
 const register = async ({ email, password, firstName, lastName, username, birthDate }) => {

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { validateTweet } = require('../models/mongoose');
-const TweetService = require('../services/TweetService');
+const TweetService = require('../services/tweetService');
 const validate = require('../middlewares.js/validate')
 const protect = require('../middlewares.js/protect');
 
